@@ -18,6 +18,12 @@
       "@components/*": [
         "src/components/*"
       ],
+      "@models/*": [
+        "src/models/*"
+      ],
+      "@screens/*": [
+        "src/screens/*"
+      ],
     },
   },
   "exclude": [
