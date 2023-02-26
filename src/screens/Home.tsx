@@ -1,28 +1,12 @@
-import { Component, For, Show, createSignal, createUniqueId, onCleanup, onMount } from "solid-js";
-import { FaRegularImage } from "solid-icons/fa";
+import {Component, For, createSignal, createUniqueId} from "solid-js";
+import {FaRegularImage} from "solid-icons/fa";
 import MainLayout from "@components/layouts/Main";
 import GlidePost from "@components/glides/GlidePost";
-import { Glide } from "@models/Glide";
-
-const HelloWorld = () => {
-
-    onMount(() => {
-        console.log("Hello World is being instantiated!")
-    })
-
-    onCleanup(() => {
-        console.log("Hello World is being cleaned-up!")
-    })
-
-    return (
-        <div>Hello World!</div>
-    )
-}
+import {Glide} from "@models/Glide";
 
 const HomeScreen: Component = () => {
     const [content, setContent] = createSignal("");
     const [glides, setGlides] = createSignal<Glide[]>([]);
-    const [displayContent, setDisplayContent] = createSignal(false);
 
     const createGlide = () => {
         const glide = {
@@ -71,8 +55,8 @@ const HomeScreen: Component = () => {
                     <div class="flex-it mb-1 flex-row xs:justify-between items-center">
                         <div class="flex-it mt-3 mr-3 cursor-pointer text-white hover:text-blue-400 transition">
                             <div class="upload-btn-wrapper">
-                                <FaRegularImage class="cursor-pointer" size={18} />
-                                <input type="file" name="myfile" />
+                                <FaRegularImage class="cursor-pointer" size={18}/>
+                                <input type="file" name="myfile"/>
                             </div>
                         </div>
                         <div class="flex-it w-32 mt-3 cursor-pointer">
@@ -92,16 +76,12 @@ const HomeScreen: Component = () => {
                 </div>
                 {/* MESSENGER END */}
             </div>
-            <div class="h-px bg-gray-700 my-1" />
+            <div class="h-px bg-gray-700 my-1"/>
             <For each={glides()}>
                 {(glide) =>
-                    <GlidePost glide={glide} />
+                    <GlidePost glide={glide}/>
                 }
             </For>
-            <button onClick={() => {setDisplayContent(!displayContent())}}>Toggle Content</button>
-            <Show when={displayContent()}>
-                <HelloWorld />
-            </Show>
             {/* HOME PAGE END */}
         </MainLayout>
     );
