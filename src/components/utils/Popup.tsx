@@ -1,4 +1,4 @@
-import {Component, Show, createSignal} from "solid-js";
+import {Component, Show, createSignal, createEffect} from "solid-js";
 
 type Props = {
     opener: Component;
@@ -6,13 +6,31 @@ type Props = {
 
 const Popup: Component<Props> = ({opener: Opener}) => {
     const [isOpen, setIsOpen] = createSignal(false);
+
+    let followTo: HTMLDivElement;
+    let popup: HTMLDivElement;
+
+    createEffect(() => {
+        if (isOpen()) {
+            adjustPopup();
+        }
+    })
+
+    const adjustPopup = () => {
+        popup.style.bottom = followTo.clientHeight + "px";
+    }
+
     return (
         <div class="flex-it flex-grow">
-            <div onClick={() => setIsOpen(!isOpen())}>
+            <div
+                ref={followTo!}
+                onClick={() => setIsOpen(!isOpen())
+                }>
                 <Opener/>
             </div>
             <Show when={isOpen()}>
                 <div
+                    ref={popup!}
                     class="flex-it hover:cursor-pointer fixed bg-gray-800 text-white popup z-10 rounded-2xl border-gray-700 border transition duration-1000">
                     <div class="w-72 min-w-68 max-h-120 min-h-8 flex-it overflow-auto">
                         <div class="flex-it flex-grow flex-shrink py-3">
