@@ -19,7 +19,7 @@ const pageSize = () => {
     const isLg = () => value().width > 1024;
 
     return {
-        isXl, isLg,
+        isXl, isLg, value,
     };
 }
 
