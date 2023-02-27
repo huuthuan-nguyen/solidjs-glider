@@ -1,8 +1,10 @@
 import {FiMoreHorizontal} from "solid-icons/fi";
-import {Component, For} from "solid-js";
+import {Component, For, Show} from "solid-js";
 import {links} from "./links";
 import {A} from "@solidjs/router";
 import Popup from "@components/utils/Popup";
+import pageSize from "../../reactive/pageSize";
+import {RiDesignQuillPenLine} from "solid-icons/ri";
 
 const MainSidebar: Component = () => {
     return (
@@ -42,7 +44,9 @@ const MainSidebar: Component = () => {
                                     class="bg-blue-400 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded-full flex-it transition">
                                     <div
                                         class="flex-it flex-row text-xl font-bold text-white items-start justify-center truncate duration-200">
-                                        <div>Glide It</div>
+                                        <Show when={pageSize.isXl()} fallback={<RiDesignQuillPenLine/>}>
+                                            <div>Glide It</div>
+                                        </Show>
                                     </div>
                                 </div>
                             </div>

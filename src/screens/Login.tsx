@@ -1,5 +1,5 @@
-import { A } from "@solidjs/router";
-import { Component } from "solid-js";
+import {A} from "@solidjs/router";
+import {Component} from "solid-js";
 
 const LoginScreen: Component = () => {
     return (
@@ -21,7 +21,8 @@ const LoginScreen: Component = () => {
                                             id="email"
                                             class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                                         />
-                                        <div class="flex-it grow text-xs bg-red-400 text-white p-3 pl-3 mt-1 rounded-md">
+                                        <div
+                                            class="flex-it grow text-xs bg-red-400 text-white p-3 pl-3 mt-1 rounded-md">
                                             Error Error Beep Beep!
                                         </div>
                                     </div>
