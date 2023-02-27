@@ -12,10 +12,12 @@ const Popup: Component<Props> = ({opener: Opener}) => {
     let popup: HTMLDivElement;
 
     onMount(() => {
+        window.addEventListener("resize", adjustPopup);
         window.addEventListener("click", closePopup);
     });
 
     onCleanup(() => {
+        window.removeEventListener("resize", adjustPopup);
         window.removeEventListener("click", closePopup);
     });
 
@@ -26,15 +28,21 @@ const Popup: Component<Props> = ({opener: Opener}) => {
     })
 
     const adjustPopup = () => {
-        const position = followTo.getBoundingClientRect();
-        popup.style.left = position.left + "px";
-        popup.style.bottom = followTo.clientHeight + "px";
+        if (!!popup) {
+            const position = followTo.getBoundingClientRect();
+            popup.style.left = position.left + "px";
+            popup.style.bottom = followTo.clientHeight + "px";
+        }
     }
 
-    const closePopup = () => {
-        if (isOpen()) {
+    const closePopup = (e: MouseEvent) => {
+        if (isOpen() && !isPopupClicked(e)) {
             setIsOpen(false);
         }
+    }
+
+    const isPopupClicked = (e: MouseEvent) => {
+        return popup?.contains(e.target as Node);
     }
 
     return (
@@ -49,7 +57,7 @@ const Popup: Component<Props> = ({opener: Opener}) => {
                 <Opener/>
             </div>
             <Show when={isOpen()}>
-                <Portal mount={document.getElementById("popups")!}>
+                <Portal mount={document.getElementById("popups") as Node}>
                     <div
                         ref={popup!}
                         class="flex-it hover:cursor-pointer fixed bg-gray-800 text-white popup z-10 rounded-2xl border-gray-700 border transition duration-1000">
