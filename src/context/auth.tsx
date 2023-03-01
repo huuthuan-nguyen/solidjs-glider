@@ -16,11 +16,22 @@ const AuthStateContext = createContext<AuthStateContextValues>();
 const AuthProvider: ParentComponent = (props) => {
     const [store, setStore] = createStore(initialState());
 
-    const authenticateUser = async () => {
-        return new Promise(() =>{
-            setTimeout(() => {
+    onMount(async () => {
+        try {
+            await authenticateUser();
+        } catch (error: any) {
+            console.log(error);
+        } finally {
+            setStore("loading", false);
+        }
+    })
 
-            }, 1000);
+    const authenticateUser = async () => {
+        return new Promise((res, rej) => {
+            setTimeout(() => {
+                setStore("isAuthenticated", true);
+                rej("Oopsie we got some problem here");
+            }, 3000);
         })
     }
 
