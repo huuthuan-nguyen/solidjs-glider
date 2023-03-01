@@ -28,7 +28,7 @@ export const links = [
     },
     {
         name: "Discover",
-        href: "/discover",
+        href: "/login",
         icon: () => <RiMapCompassDiscoverLine size={SIZE} />,
     },
 ];

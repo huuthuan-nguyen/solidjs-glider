@@ -24,6 +24,9 @@
       "@screens/*": [
         "src/screens/*"
       ],
+      "@context/*": [
+        "src/context/*"
+      ],
     },
   },
   "exclude": [

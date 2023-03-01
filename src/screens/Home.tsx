@@ -1,4 +1,4 @@
-import {Component, For, createSignal, createUniqueId} from "solid-js";
+import {Component, For, createSignal, createUniqueId, onMount} from "solid-js";
 import {FaRegularImage} from "solid-icons/fa";
 import MainLayout from "@components/layouts/Main";
 import GlidePost from "@components/glides/GlidePost";
