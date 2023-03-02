@@ -3,13 +3,18 @@ export type GliderInputEvent = InputEvent & {
     target: Element;
 }
 
+export type SubmitCallback<T extends Form> = (f: T) => void
+
+export type Form = { [key: string]: string }
+
+export type AuthForm = {
+    email: string;
+    password: string;
+} & Form
+
 export type RegisterForm = {
     fullName: string,
     nickName: string,
-    email: string,
     avatar: string,
-    password: string,
     passwordConfirmation: string,
-}
-
-export type SubmitCallback = (f: any) => void
+} & AuthForm

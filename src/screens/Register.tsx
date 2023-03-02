@@ -14,7 +14,7 @@ const RegisterScreen: Component = () => {
         passwordConfirmation: "",
     });
 
-    const onFormSubmit = (form: any) => {
+    const onFormSubmit = (form: RegisterForm) => {
         console.log(form);
     }
     return (
