@@ -27,6 +27,9 @@
       "@context/*": [
         "src/context/*"
       ],
+      "@layouts/*": [
+        "src/router/layouts/*"
+      ]
     },
   },
   "exclude": [

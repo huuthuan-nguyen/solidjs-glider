@@ -16,6 +16,7 @@ export default defineConfig({
       { find: '@models', replacement: path.resolve(__dirname, './src/models') },
       { find: '@screens', replacement: path.resolve(__dirname, './src/screens') },
       { find: '@context', replacement: path.resolve(__dirname, './src/context') },
+      { find: '@layouts', replacement: path.resolve(__dirname, './src/router/layouts') },
     ],
   },
 });
