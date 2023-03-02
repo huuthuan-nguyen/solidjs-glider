@@ -32,8 +32,8 @@ const AuthProvider: ParentComponent = (props) => {
     const authenticateUser = async () => {
         return new Promise((res, rej) => {
             setTimeout(() => {
-                res(true);
-                // rej("Oopsie we got some problem here");
+                // res(true);
+                rej("Oopsie we got some problem here");
             }, 1000);
         })
     }

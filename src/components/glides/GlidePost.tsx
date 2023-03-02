@@ -2,7 +2,7 @@ import { Component } from "solid-js";
 import { FaRegularHeart } from "solid-icons/fa";
 import { FiTrash } from "solid-icons/fi";
 import { AiOutlineMessage } from "solid-icons/ai";
-import { Glide } from "@models/Glide";
+import { Glide } from "../../types/Glide";
 
 type Props = {
     glide: Glide,
