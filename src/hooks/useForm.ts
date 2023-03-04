@@ -7,7 +7,10 @@ const useForm = <T extends Form>(initialForm: T) => {
 
     const handleInput = (e: GliderInputEvent) => {
         const {name, value} = e.currentTarget;
-        setForm(name as any, value as any);
+        setForm(
+            name as any,
+            value as any,
+        );
     }
 
     const submitForm = (submitCallback: SubmitCallback<T>) => () => {
