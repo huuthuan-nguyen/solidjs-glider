@@ -1,11 +1,10 @@
 import {A} from "@solidjs/router";
 import {Component} from "solid-js";
-import {createStore} from "solid-js/store";
-import {GliderInputEvent, RegisterForm} from "../types/Form";
-import useForm from "../hooks/useForm";
+import {RegisterForm} from "../types/Form";
+import {useForm, maxLengthValidator} from "../hooks/useForm";
 
 const RegisterScreen: Component = () => {
-    const {handleInput, submitForm} = useForm({
+    const {handleInput, submitForm, validate} = useForm({
         fullName: "",
         nickName: "",
         email: "",
@@ -17,6 +16,8 @@ const RegisterScreen: Component = () => {
     const onFormSubmit = (form: RegisterForm) => {
         console.log(form);
     }
+
+
     return (
         <div class="flex-it justify-center items-center h-full">
             <div class="text-white text-4xl font-bold">Glider - Create Account</div>
@@ -32,6 +33,7 @@ const RegisterScreen: Component = () => {
                                         </label>
                                         <input
                                             onInput={handleInput}
+                                            use:validate={[maxLengthValidator]}
                                             type="text"
                                             name="fullName"
                                             id="fullName"
@@ -49,6 +51,7 @@ const RegisterScreen: Component = () => {
                                         </label>
                                         <input
                                             onInput={handleInput}
+                                            use:validate={[maxLengthValidator]}
                                             type="text"
                                             name="nickName"
                                             id="nickName"
