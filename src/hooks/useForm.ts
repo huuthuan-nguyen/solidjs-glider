@@ -20,6 +20,17 @@ export const maxLengthValidator: Validator = (element: HTMLInputElement, maxLeng
     return `${element.name} should be less than ${maxLength} characters`;
 }
 
+export const firstUppercaseLetter: Validator = (element: HTMLInputElement) => {
+    const {value} = element;
+
+    if (value.length === 0) {
+        return "";
+    }
+
+    return value[0] !== value[0].toUpperCase() ?
+        `${element.name} first letter should be uppercase` : "";
+}
+
 export const useForm = <T extends Form>(initialForm: T) => {
 
     const [form, setForm] = createStore<T>(initialForm);
@@ -37,20 +48,24 @@ export const useForm = <T extends Form>(initialForm: T) => {
         submitCallback(form);
     }
 
-    const validate = (ref: HTMLInputElement, accessor: Accessor<number>) => {
+    const validate = (ref: HTMLInputElement, accessor: Accessor<Validator[]>) => {
         const validators = accessor() || [];
 
-        ref.onblur = checkValidity(ref)
+        ref.onblur = checkValidity(ref, validators)
     }
 
-    const checkValidity = (element: HTMLInputElement) => () => {
-        const message = maxLengthValidator(element, 10);
+    const checkValidity = (element: HTMLInputElement, validators: Validator[]) => () => {
 
-        if (!!message) {
-            setErrors(element.name, message);
-        } else {
-            setErrors(element.name, "");
+        for (const validator of validators) {
+            const message = validator(element);
+
+            if (!!message) {
+                setErrors(element.name, message);
+            } else {
+                setErrors(element.name, "");
+            }
         }
+
         console.log(JSON.stringify(errors));
     }
 
