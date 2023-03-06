@@ -34,7 +34,7 @@ export const firstUppercaseLetter: Validator = (element: HTMLInputElement) => {
 export const useForm = <T extends Form>(initialForm: T) => {
 
     const [form, setForm] = createStore<T>(initialForm);
-    const [errors, setErrors] = createStore<Form>()
+    const [errors, setErrors] = createStore<Form>();
 
     const handleInput = (e: GliderInputEvent) => {
         const {name, value} = e.currentTarget;
