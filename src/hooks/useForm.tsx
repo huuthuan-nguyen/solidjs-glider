@@ -84,6 +84,16 @@ export const useForm = <T extends Form>(initialForm: T) => {
     const [form, setForm] = createStore<T>(initialForm);
     const [errors, setErrors] = createStore<FormErrors>();
     const validatorFields: { [key: string]: ValidatorConfig } = {};
+    const isValid = () => {
+        const keys = Object.keys(errors);
+        if (keys.length === 0) {
+            return false;
+        }
+
+        return !keys.some(errorKey => {
+            return errors[errorKey].length > 0;
+        });
+    }
 
     const handleInput = (e: GliderInputEvent) => {
         const {name, value} = e.currentTarget;
@@ -98,7 +108,9 @@ export const useForm = <T extends Form>(initialForm: T) => {
             const config = validatorFields[field];
             checkValidity(config)();
         }
-        submitCallback(form);
+        if (isValid()) {
+            submitCallback(form);
+        }
     }
 
     const validate = (ref: HTMLInputElement, accessor: Accessor<Validator[]>) => {
@@ -122,8 +134,6 @@ export const useForm = <T extends Form>(initialForm: T) => {
                 }));
             }
         }
-
-        console.log(JSON.stringify(errors));
     }
 
     return {handleInput, submitForm, validate, errors};
