@@ -1,7 +1,14 @@
 import {A} from "@solidjs/router";
 import {Component, For, Show} from "solid-js";
 import {RegisterForm} from "../types/Form";
-import {useForm, maxLengthValidator, firstUppercaseLetter, FormError} from "../hooks/useForm";
+import {
+    useForm,
+    maxLengthValidator,
+    firstUppercaseLetter,
+    FormError,
+    minLengthValidator,
+    requiredValidator
+} from "../hooks/useForm";
 
 const RegisterScreen: Component = () => {
     const {handleInput, submitForm, validate, errors} = useForm({
@@ -33,15 +40,13 @@ const RegisterScreen: Component = () => {
                                         </label>
                                         <input
                                             onInput={handleInput}
-                                            use:validate={[maxLengthValidator, firstUppercaseLetter]}
+                                            use:validate={[requiredValidator, minLengthValidator, firstUppercaseLetter]}
                                             type="text"
                                             name="fullName"
                                             id="fullName"
                                             class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                                         />
-                                        <Show when={errors["fullName"]?.length > 0}>
-                                            <FormError>{errors["fullName"]}</FormError>
-                                        </Show>
+                                        <FormError>{errors["fullName"]}</FormError>
                                     </div>
 
                                     <div class="flex-it py-2">
@@ -50,15 +55,16 @@ const RegisterScreen: Component = () => {
                                         </label>
                                         <input
                                             onInput={handleInput}
-                                            use:validate={[maxLengthValidator]}
+                                            use:validate={[
+                                                requiredValidator,
+                                                (element) => minLengthValidator(element, 4),
+                                            ]}
                                             type="text"
                                             name="nickName"
                                             id="nickName"
                                             class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                                         />
-                                        <Show when={errors["nickName"]?.length > 0}>
-                                            <FormError>{errors["nickName"]}</FormError>
-                                        </Show>
+                                        <FormError>{errors["nickName"]}</FormError>
                                     </div>
 
                                     <div class="flex-it py-2">
@@ -67,11 +73,13 @@ const RegisterScreen: Component = () => {
                                         </label>
                                         <input
                                             onInput={handleInput}
+                                            use:validate={[requiredValidator]}
                                             type="text"
                                             name="email"
                                             id="email"
                                             class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                                         />
+                                        <FormError>{errors["email"]}</FormError>
                                     </div>
 
                                     <div class="flex-it py-2">
@@ -80,11 +88,13 @@ const RegisterScreen: Component = () => {
                                         </label>
                                         <input
                                             onInput={handleInput}
+                                            use:validate={[requiredValidator]}
                                             type="text"
                                             name="avatar"
                                             id="avatar"
                                             class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                                         />
+                                        <FormError>{errors["avatar"]}</FormError>
                                     </div>
 
                                     <div class="flex-it py-2">
@@ -93,11 +103,13 @@ const RegisterScreen: Component = () => {
                                         </label>
                                         <input
                                             onInput={handleInput}
+                                            use:validate={[requiredValidator]}
                                             type="password"
                                             name="password"
                                             id="password"
                                             class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                                         />
+                                        <FormError>{errors["password"]}</FormError>
                                     </div>
 
                                     <div class="flex-it py-2">
@@ -106,11 +118,13 @@ const RegisterScreen: Component = () => {
                                         </label>
                                         <input
                                             onInput={handleInput}
+                                            use:validate={[requiredValidator]}
                                             type="password"
                                             name="passwordConfirmation"
                                             id="passwordConfirmation"
                                             class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                                         />
+                                        <FormError>{errors["passwordConfirmation"]}</FormError>
                                     </div>
                                 </div>
                             </div>
