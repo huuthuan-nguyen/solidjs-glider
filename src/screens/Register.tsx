@@ -1,16 +1,18 @@
 import {A} from "@solidjs/router";
-import {Component, For, Show} from "solid-js";
+import {Component} from "solid-js";
 import {RegisterForm} from "../types/Form";
 import {
     useForm,
-    maxLengthValidator,
     firstUppercaseLetter,
     FormError,
     minLengthValidator,
-    requiredValidator, compareWith
+    requiredValidator,
+    compareWith,
 } from "../hooks/useForm";
+import useRegister from "../hooks/useRegister";
 
 const RegisterScreen: Component = () => {
+    const {register} = useRegister();
     const {handleInput, submitForm, validate, errors} = useForm({
         fullName: "",
         nickName: "",
@@ -21,7 +23,7 @@ const RegisterScreen: Component = () => {
     });
 
     const onFormSubmit = (form: RegisterForm) => {
-        console.log(form);
+        register(form);
     }
 
 
