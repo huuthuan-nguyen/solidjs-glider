@@ -94,7 +94,10 @@ export const useForm = <T extends Form>(initialForm: T) => {
     }
 
     const submitForm = (submitCallback: SubmitCallback<T>) => () => {
-        // validate each input
+        for (const field in validatorFields) {
+            const config = validatorFields[field];
+            checkValidity(config)();
+        }
         submitCallback(form);
     }
 
