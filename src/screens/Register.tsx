@@ -7,7 +7,7 @@ import {
     firstUppercaseLetter,
     FormError,
     minLengthValidator,
-    requiredValidator
+    requiredValidator, compareWith
 } from "../hooks/useForm";
 
 const RegisterScreen: Component = () => {
@@ -118,7 +118,10 @@ const RegisterScreen: Component = () => {
                                         </label>
                                         <input
                                             onInput={handleInput}
-                                            use:validate={[requiredValidator]}
+                                            use:validate={[
+                                                requiredValidator,
+                                                (element) => compareWith(element, "password"),
+                                            ]}
                                             type="password"
                                             name="passwordConfirmation"
                                             id="passwordConfirmation"

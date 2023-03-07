@@ -10,7 +10,7 @@ declare module "solid-js" {
     }
 }
 
-type Validator = (element: HTMLInputElement, ...rest: any[]) => string;
+type Validator = (element: HTMLInputElement, ...rest: any[]) => (form: Form) => string;
 type ValidatorConfig = { element: HTMLInputElement, validators: Validator[] };
 
 const niceName = (text: string) => {
@@ -48,11 +48,20 @@ export const FormError: ParentComponent = (props) => {
     )
 }
 
-export const requiredValidator: Validator = (element: HTMLInputElement) => {
+export const compareWith: Validator = (element: HTMLInputElement, fieldName: string) => (form: Form) => {
+    if (element.value.length === 0) {
+        return "";
+    }
+    const compareToValue = form[fieldName];
+    return element.value !== compareToValue ?
+        `${niceName(element.name)} should be same as ${niceName(fieldName)}` : "";
+}
+
+export const requiredValidator: Validator = (element: HTMLInputElement) => (form: Form) => {
     return element.value.length === 0 ? `${niceName(element.name)} is required` : "";
 }
 
-export const minLengthValidator: Validator = (element: HTMLInputElement, minLength = 7) => {
+export const minLengthValidator: Validator = (element: HTMLInputElement, minLength = 7) => (form: Form) => {
     if (element.value.length === 0 || element.value.length > minLength) {
         return "";
     }
@@ -60,7 +69,7 @@ export const minLengthValidator: Validator = (element: HTMLInputElement, minLeng
     return `${niceName(element.name)} should be more than ${minLength} characters`;
 }
 
-export const maxLengthValidator: Validator = (element: HTMLInputElement, maxLength = 7) => {
+export const maxLengthValidator: Validator = (element: HTMLInputElement, maxLength = 7) => (form: Form) => {
     if (element.value.length === 0 || element.value.length < maxLength) {
         return "";
     }
@@ -68,7 +77,7 @@ export const maxLengthValidator: Validator = (element: HTMLInputElement, maxLeng
     return `${niceName(element.name)} should be less than ${maxLength} characters`;
 }
 
-export const firstUppercaseLetter: Validator = (element: HTMLInputElement) => {
+export const firstUppercaseLetter: Validator = (element: HTMLInputElement) => (form: Form) => {
     const {value} = element;
 
     if (value.length === 0) {
@@ -132,7 +141,7 @@ export const useForm = <T extends Form>(initialForm: T) => {
         setErrors(element.name, []);
 
         for (const validator of validators) {
-            const message = validator(element);
+            const message = validator(element)(form);
 
             if (!!message) {
                 setErrors(produce(errors => {
