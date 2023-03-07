@@ -1,7 +1,7 @@
 import {A} from "@solidjs/router";
 import {Component} from "solid-js";
 import {RegisterForm} from "../types/Form";
-import {useForm, maxLengthValidator, firstUppercaseLetter} from "../hooks/useForm";
+import {useForm, maxLengthValidator, firstUppercaseLetter, FormError} from "../hooks/useForm";
 
 const RegisterScreen: Component = () => {
     const {handleInput, submitForm, validate} = useForm({
@@ -39,10 +39,7 @@ const RegisterScreen: Component = () => {
                                             id="fullName"
                                             class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                                         />
-                                        <div
-                                            class="flex-it grow text-xs bg-red-400 text-white p-3 pl-3 mt-1 rounded-md">
-                                            Error Error Beep Beep!
-                                        </div>
+                                        <FormError message="Just testing!!!"/>
                                     </div>
 
                                     <div class="flex-it py-2">
