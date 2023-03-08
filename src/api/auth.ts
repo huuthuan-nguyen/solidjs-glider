@@ -4,7 +4,7 @@ import {db, firebaseAuth} from "../db";
 import {User} from "../types/User";
 import {setDoc, doc} from "@firebase/firestore";
 
-const registerUser = async (form: RegisterForm) => {
+const register = async (form: RegisterForm) => {
     const {user: registeredUser} = await createUserWithEmailAndPassword(firebaseAuth, form.email, form.password);
     const user: User = {
         uid: registeredUser.uid,
@@ -31,4 +31,4 @@ const logout = () => {
     return signOut(firebaseAuth);
 }
 
-export {registerUser, logout, login};
+export {register, logout, login};
