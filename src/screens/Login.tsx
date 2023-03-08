@@ -2,17 +2,17 @@ import {A} from "@solidjs/router";
 import {Component} from "solid-js";
 import {FormError, requiredValidator, useForm} from "../hooks/useForm";
 import {AuthForm} from "../types/Form";
-import useLogin from "../hooks/useLogin";
+import useAuth from "../hooks/useAuth";
 
 const LoginScreen: Component = () => {
-    const {loginUser} = useLogin();
+    const {authUser} = useAuth("login");
     const {handleInput, submitForm, validate, errors} = useForm<AuthForm>({
         email: "",
         password: "",
     });
 
     const onFormSubmit = (form: AuthForm) => {
-        loginUser(form);
+        authUser(form);
     }
 
     return (

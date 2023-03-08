@@ -9,10 +9,10 @@ import {
     requiredValidator,
     compareWith,
 } from "../hooks/useForm";
-import useRegister from "../hooks/useRegister";
+import useAuth from "../hooks/useAuth";
 
 const RegisterScreen: Component = () => {
-    const {registerUser} = useRegister();
+    const {authUser} = useAuth("register");
     const {handleInput, submitForm, validate, errors} = useForm({
         fullName: "",
         nickName: "",
@@ -23,7 +23,7 @@ const RegisterScreen: Component = () => {
     });
 
     const onFormSubmit = (form: RegisterForm) => {
-        registerUser(form);
+        authUser(form);
     }
 
 
