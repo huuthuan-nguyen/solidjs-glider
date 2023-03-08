@@ -2,7 +2,7 @@ import {AuthForm, RegisterForm} from "../types/Form";
 import {createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut} from "@firebase/auth";
 import {db, firebaseAuth} from "../db";
 import {User} from "../types/User";
-import {setDoc, doc} from "@firebase/firestore";
+import {setDoc, doc, getDoc} from "@firebase/firestore";
 
 export type AuthType = "register" | "login";
 
@@ -37,4 +37,11 @@ const logout = () => {
     return signOut(firebaseAuth);
 }
 
-export {register, logout, login, authenticate};
+const getUser = async (uid: string) => {
+    const docRef = doc(db, "users", uid);
+    const docSnap = await getDoc(docRef);
+    return docSnap.data() as User;
+}
+
+
+export {register, logout, login, authenticate, getUser};
