@@ -1,5 +1,5 @@
-import {RegisterForm} from "../types/Form";
-import {createUserWithEmailAndPassword, signOut} from "@firebase/auth";
+import {AuthForm, RegisterForm} from "../types/Form";
+import {createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut} from "@firebase/auth";
 import {db, firebaseAuth} from "../db";
 import {User} from "../types/User";
 import {setDoc, doc} from "@firebase/firestore";
@@ -22,8 +22,13 @@ const registerUser = async (form: RegisterForm) => {
     return registeredUser;
 }
 
+const login = async (loginForm: AuthForm) => {
+    const {user} = await signInWithEmailAndPassword(firebaseAuth, loginForm.email, loginForm.password);
+    return user;
+}
+
 const logout = () => {
     return signOut(firebaseAuth);
 }
 
-export {registerUser, logout};
+export {registerUser, logout, login};
