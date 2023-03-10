@@ -2,6 +2,10 @@ import {addDoc, collection, doc, Timestamp} from "@firebase/firestore";
 import {db} from "../db";
 import {Glide} from "../types/Glide";
 
+const getGlides = () => {
+    alert("Getting new glides!");
+}
+
 const createGlide = async (form: {
     content: string;
     uid: string;
@@ -26,4 +30,5 @@ const createGlide = async (form: {
 
 export {
     createGlide,
+    getGlides,
 }
