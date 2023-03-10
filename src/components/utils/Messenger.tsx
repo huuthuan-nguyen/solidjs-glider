@@ -2,10 +2,18 @@ import {Component} from "solid-js";
 import {FaRegularImage} from "solid-icons/fa";
 import useMessenger from "../../hooks/useMessenger";
 import {useAuthState} from "@context/auth";
+import {GliderInputEvent} from "../../types/Form";
 
 const Messenger: Component = () => {
     const {handleInput, handleSubmit, form} = useMessenger();
     const {user} = useAuthState()!;
+
+    const autosize = (e: GliderInputEvent) => {
+        const el = e.currentTarget;
+        el.style.height = "0px";
+        const {scrollHeight} = el;
+        el.style.height = scrollHeight + "px";
+    }
 
     return (
         <div class="flex-it py-1 px-4 flex-row">
@@ -21,7 +29,10 @@ const Messenger: Component = () => {
                 <div class="flex-it">
                         <textarea
                             value={form.content}
-                            onInput={handleInput}
+                            onInput={(e) => {
+                                handleInput(e);
+                                autosize(e);
+                            }}
                             name="content"
                             rows="1"
                             id="glide"
