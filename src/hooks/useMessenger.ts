@@ -1,7 +1,13 @@
 import {createStore} from "solid-js/store";
 import {GliderInputEvent, MessengerForm} from "../types/Form";
+import {useAuthState} from "@context/auth";
+import {useUIDispatch} from "@context/ui";
+import {createSignal} from "solid-js";
 
 const useMessenger = () => {
+    const {isAuthenticated, user} = useAuthState()!;
+    const {addSnackbar} = useUIDispatch();
+    const [loading, setLoading] = createSignal(false);
     const [form, setForm] = createStore<MessengerForm>({
         content: "",
     });
@@ -12,17 +18,28 @@ const useMessenger = () => {
     }
 
     const handleSubmit = () => {
-        const glide = {
-            ...form,
+
+        if (!isAuthenticated) {
+            addSnackbar({message: "You are not authenticated!", type: "error"});
+            return;
         }
 
+        setLoading(true);
+
+        const glide = {
+            ...form,
+            uid: user!.uid,
+        }
+        
         setForm({content: ""});
+        setLoading(false);
     }
 
     return {
         handleInput,
         handleSubmit,
         form,
+        loading,
     }
 }
 
