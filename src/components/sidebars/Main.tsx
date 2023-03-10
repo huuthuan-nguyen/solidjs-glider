@@ -9,7 +9,6 @@ import {useAuthState} from "@context/auth";
 
 const MainSidebar: Component = () => {
     const {user} = useAuthState()!;
-    console.log(user);
     return (
         <header class="lg:flex-grow flex-it items-end">
             <div class="xl:w-80 w-20 flex-it">
