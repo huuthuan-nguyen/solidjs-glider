@@ -42,7 +42,8 @@ const useGlides = () => {
         }
     }
 
-    const addGlide = (glide: Glide) => {
+    const addGlide = (glide: Glide | undefined) => {
+        if (!glide) return;
         const page = 1;
         setStore(produce(store => {
             if (!store.pages[page]) {

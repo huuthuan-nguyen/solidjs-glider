@@ -6,7 +6,7 @@ import {GliderInputEvent} from "../../types/Form";
 import {Glide} from "../../types/Glide";
 
 type Props = {
-    onGlideAdded: (g: Glide) => void;
+    onGlideAdded: (g: Glide | undefined) => void;
 }
 const Messenger: Component<Props> = (props) => {
     const {handleInput, handleSubmit, form} = useMessenger();
