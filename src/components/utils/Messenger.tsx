@@ -4,7 +4,7 @@ import useMessenger from "../../hooks/useMessenger";
 import {useAuthState} from "@context/auth";
 
 const Messenger: Component = () => {
-    const {handleInput, handleSubmit} = useMessenger();
+    const {handleInput, handleSubmit, form} = useMessenger();
     const {user} = useAuthState()!;
 
     return (
@@ -20,6 +20,7 @@ const Messenger: Component = () => {
             <div class="flex-it flex-grow">
                 <div class="flex-it">
                         <textarea
+                            value={form.content}
                             onInput={handleInput}
                             name="content"
                             rows="1"
