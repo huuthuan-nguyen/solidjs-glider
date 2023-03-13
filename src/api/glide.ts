@@ -4,7 +4,7 @@ import {
     doc,
     DocumentReference,
     getDoc,
-    getDocs, limit,
+    getDocs, limit, onSnapshot,
     orderBy,
     query, QueryConstraint, QueryDocumentSnapshot, startAfter,
     Timestamp, where
@@ -48,6 +48,23 @@ const getGlides = async (loggedInUser: User, lastGlide: QueryDocumentSnapshot | 
     return {glides, lastGlide: _lastGlide};
 }
 
+const subscribeToGlides = (loggedInUser: User) => {
+    const _collection = collection(db, "glides");
+    const constraints = [
+        where("date", ">", Timestamp.now()),
+        where("user", "in", loggedInUser.following),
+    ];
+
+    const q = query(
+        _collection,
+        ...constraints,
+    );
+
+    onSnapshot(q, (querySnapshot) => {
+        console.log(querySnapshot.docs);
+    });
+}
+
 const createGlide = async (form: {
     content: string;
     uid: string;
@@ -73,4 +90,5 @@ const createGlide = async (form: {
 export {
     createGlide,
     getGlides,
+    subscribeToGlides,
 }
