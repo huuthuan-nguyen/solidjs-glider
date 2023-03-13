@@ -7,17 +7,25 @@ import {
     getDocs, limit,
     orderBy,
     query, QueryConstraint, QueryDocumentSnapshot, startAfter,
-    Timestamp
+    Timestamp, where
 } from "@firebase/firestore";
 import {db} from "../db";
 import {Glide} from "../types/Glide";
 import {User} from "../types/User";
 
-const getGlides = async (lastGlide: QueryDocumentSnapshot | null) => {
+const getGlides = async (loggedInUser: User, lastGlide: QueryDocumentSnapshot | null) => {
+    const _loggedUserDoc = doc(db, "users", loggedInUser.uid);
     const constraints: QueryConstraint[] = [
         orderBy("date", "desc"),
         limit(10),
     ]
+
+    if (loggedInUser.following.length > 0) {
+        constraints.push(where("user", "in", [...loggedInUser.following, _loggedUserDoc]));
+    } else {
+        console.log(_loggedUserDoc);
+        constraints.push(where("user", "==", _loggedUserDoc));
+    }
 
     if (!!lastGlide) {
         constraints.push(startAfter(lastGlide));
