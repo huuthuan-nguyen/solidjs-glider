@@ -11,7 +11,10 @@ const getUsers = async (loggedInUser: User) => {
     const users = querySnapshot.docs.map(doc => {
         const user = doc.data() as User
         return user;
-    });
+    }).filter(user => {
+        const hasFollowing = loggedInUser.following.filter(following => following.id === user.uid).length > 0;
+        return !hasFollowing;
+    })
     return users;
 }
 
