@@ -1,5 +1,5 @@
 import {User} from "../types/User";
-import {collection, getDocs, query, where} from "@firebase/firestore";
+import {arrayUnion, collection, doc, getDocs, increment, query, updateDoc, where} from "@firebase/firestore";
 import {db} from "../db";
 
 const getUsers = async (loggedInUser: User) => {
@@ -15,4 +15,21 @@ const getUsers = async (loggedInUser: User) => {
     return users;
 }
 
-export default getUsers;
+const followUser = async (followerUID: string, followingUID: string) => {
+    const followerRef = doc(db, "users", followerUID);
+    const followingRef = doc(db, "users", followingUID);
+
+    await updateDoc(followerRef, {
+        following: arrayUnion(followingRef),
+        followingCount: increment(1),
+    });
+
+    await updateDoc(followingRef, {
+        followers: arrayUnion(followerRef),
+        followersCount: increment(1),
+    });
+
+    return followingRef;
+}
+
+export {getUsers, followUser};
