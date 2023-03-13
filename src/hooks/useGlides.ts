@@ -3,7 +3,7 @@ import {createStore, produce} from "solid-js/store";
 import {createSignal, onMount} from "solid-js";
 import * as api from "../api/glide";
 import {FirebaseError} from "@firebase/app";
-import {QueryDocumentSnapshot} from "@firebase/firestore";
+import {QueryDocumentSnapshot, Unsubscribe} from "@firebase/firestore";
 import {useAuthState} from "@context/auth";
 
 type State = {
@@ -20,6 +20,8 @@ const useGlides = () => {
     const {user} = useAuthState()!;
     const [page, setPage] = createSignal(1);
     const [store, setStore] = createStore<State>(createInitState());
+
+    let unSubscribe: Unsubscribe;
 
     onMount(() => {
         loadGlides();
@@ -59,7 +61,13 @@ const useGlides = () => {
             return;
         }
 
-        api.subscribeToGlides(user!);
+        unSubscribe = api.subscribeToGlides(user!);
+    }
+
+    const unsubscribeFromGlides = () => {
+        if (!!unSubscribe) {
+            unSubscribe();
+        }
     }
 
     const addGlide = (glide: Glide | undefined) => {
@@ -79,6 +87,7 @@ const useGlides = () => {
         addGlide,
         store,
         subscribeToGlides,
+        unsubscribeFromGlides,
     }
 }
 

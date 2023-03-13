@@ -60,7 +60,7 @@ const subscribeToGlides = (loggedInUser: User) => {
         ...constraints,
     );
 
-    onSnapshot(q, (querySnapshot) => {
+    return onSnapshot(q, (querySnapshot) => {
         console.log(querySnapshot.docs);
     });
 }
