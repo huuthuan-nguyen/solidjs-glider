@@ -12,9 +12,12 @@ import useSubGlides from "../hooks/useSubGlides";
 const GlideDetailScreen = () => {
     const params = useParams();
     const [data] = createResource(() => getGlideById(params.id, params.uid));
-    const {store} = useSubGlides();
-    console.log(store);
+    const {store, loadGlides} = useSubGlides();
     const user = () => data()?.user as User;
+
+    onMount(() => {
+        loadGlides();
+    });
 
     return (
         <MainLayout pageTitle={

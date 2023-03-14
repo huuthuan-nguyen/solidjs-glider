@@ -67,6 +67,14 @@ const getGlides = async (loggedInUser: User, lastGlide: QueryDocumentSnapshot | 
     return {glides, lastGlide: _lastGlide};
 }
 
+const getSubGlides = async () => {
+    alert("get subglides!");
+    return {
+        glides: [],
+        lastGlide: null,
+    }
+}
+
 const subscribeToGlides = (loggedInUser: User, getCallback: (g: Glide[]) => void) => {
     const _collection = collection(db, "glides");
     const constraints = [
@@ -122,4 +130,5 @@ export {
     getGlides,
     subscribeToGlides,
     getGlideById,
+    getSubGlides,
 }
