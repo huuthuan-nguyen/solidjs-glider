@@ -5,10 +5,13 @@ import {getGlideById} from "../api/glide";
 import GlidePost from "@components/glides/GlidePost";
 import {CenteredDataLoader} from "@components/utils/DataLoader";
 import {FaSolidArrowLeft} from "solid-icons/fa";
+import Messenger from "@components/utils/Messenger";
+import {User} from "../types/User";
 
 const GlideDetailScreen = () => {
     const params = useParams();
     const [data] = createResource(() => getGlideById(params.id, params.uid));
+    const user = () => data()?.user as User;
 
     return (
         <MainLayout pageTitle={
@@ -24,6 +27,15 @@ const GlideDetailScreen = () => {
                 fallback={<CenteredDataLoader/>}
             >
                 <GlidePost glide={data()!}/>
+                <div class="p-4 border-b-1 border-solid border-gray-700">
+                    <div class="text-sm italic text-gray-300 underline mb-2">
+                        Answering to {user().nickName}
+                    </div>
+                    <Messenger
+                        showAvatar={false}
+                        onGlideAdded={() => {
+                        }}/>
+                </div>
             </Show>
         </MainLayout>
     )
