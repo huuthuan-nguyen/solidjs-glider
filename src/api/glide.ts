@@ -10,8 +10,16 @@ import {
     Timestamp, where
 } from "@firebase/firestore";
 import {db} from "../db";
-import {Glide} from "../types/Glide";
+import {Glide, UserGlide} from "../types/Glide";
 import {User} from "../types/User";
+
+const getGlideById = async (id: string, uid: string) => {
+    const userDocRef = doc(db, "users", uid);
+    const userGlideRef = doc(userDocRef, "glides", id);
+    const userGlideSnap = await getDoc(userGlideRef);
+    const userGlide = userGlideSnap.data() as UserGlide;
+    console.log(userGlide.lookup);
+}
 
 const getGlides = async (loggedInUser: User, lastGlide: QueryDocumentSnapshot | null) => {
     const _loggedUserDoc = doc(db, "users", loggedInUser.uid);
@@ -103,4 +111,5 @@ export {
     createGlide,
     getGlides,
     subscribeToGlides,
+    getGlideById,
 }

@@ -1,5 +1,6 @@
 import {User} from "./User";
 import {DocumentReference, Timestamp} from "@firebase/firestore";
+import {lookup} from "solid-js/types/server/reactive";
 
 export interface Glide {
     id: string;
@@ -10,4 +11,8 @@ export interface Glide {
     likesCount: number;
     subGlidesCount: number;
     date: Timestamp;
+}
+
+export type UserGlide = {
+    lookup: DocumentReference;
 }
