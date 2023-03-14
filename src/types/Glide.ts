@@ -1,5 +1,5 @@
 import {User} from "./User";
-import {DocumentReference, Timestamp} from "@firebase/firestore";
+import {DocumentReference, QueryDocumentSnapshot, Timestamp} from "@firebase/firestore";
 import {lookup} from "solid-js/types/server/reactive";
 
 export interface Glide {
@@ -15,4 +15,12 @@ export interface Glide {
 
 export type UserGlide = {
     lookup: DocumentReference;
+}
+
+export type UseGlideState = {
+    pages: {
+        [key: string]: { glides: Glide[] }
+    };
+    loading: boolean;
+    lastGlide: QueryDocumentSnapshot | null;
 }
