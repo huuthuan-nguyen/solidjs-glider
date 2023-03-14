@@ -13,7 +13,8 @@ const HomeScreen: Component = () => {
         page,
         loadGlides,
         subscribeToGlides,
-        unsubscribeFromGlides
+        unsubscribeFromGlides,
+        displayFreshGlides,
     } = useGlides();
 
     onMount(() => {
@@ -28,15 +29,15 @@ const HomeScreen: Component = () => {
         <MainLayout pageTitle="Home">
             <Messenger onGlideAdded={addGlide}/>
             <div class="h-px bg-gray-700 my-1"/>
-            {/*<Show when={store.freshGlides.length >= 3}>*/}
+            <Show when={store.freshGlides.length >= 3}>
             <Portal>
                 <div class="fixed top-2 z-100 left-2/4 -translate-x-1/2">
-                    <Button onClick={() => alert("Hi there!")}>
+                    <Button onClick={displayFreshGlides}>
                         <span>Read New Glides</span>
                     </Button>
                 </div>
             </Portal>
-            {/*</Show>*/}
+            </Show>
             <PaginatedGlides
                 page={page}
                 pages={store.pages}

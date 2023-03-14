@@ -61,7 +61,7 @@ const subscribeToGlides = (loggedInUser: User, getCallback: (g: Glide[]) => void
     );
 
     return onSnapshot(q, async (querySnapshot) => {
-        const glides = await Promise.all(querySnapshot.docs.reverse().map(async doc => {
+        const glides = await Promise.all(querySnapshot.docs.map(async doc => {
             const glide = doc.data() as Glide;
             const userSnapshot = await getDoc(glide.user as DocumentReference);
             glide.user = userSnapshot.data() as User;

@@ -74,6 +74,11 @@ const useGlides = () => {
         }
     }
 
+    const resubscribe = () => {
+        unsubscribeFromGlides();
+        subscribeToGlides();
+    }
+
     const addGlide = (glide: Glide | undefined) => {
         if (!glide) return;
         const page = 1;
@@ -81,8 +86,18 @@ const useGlides = () => {
             if (!store.pages[page]) {
                 store.pages[page] = {glides: []};
             }
-            store.pages[page].glides.unshift(glide);
+            store.pages[page].glides.unshift({...glide});
         }));
+    }
+
+    const displayFreshGlides = () => {
+        store.freshGlides.forEach(freshGlide => {
+            addGlide(freshGlide);
+        });
+
+        setStore("freshGlides", []);
+        resubscribe();
+        window.scrollTo({top: 0, behavior: "smooth"});
     }
 
     return {
@@ -92,6 +107,7 @@ const useGlides = () => {
         store,
         subscribeToGlides,
         unsubscribeFromGlides,
+        displayFreshGlides,
     }
 }
 
