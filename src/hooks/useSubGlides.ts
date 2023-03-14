@@ -1,5 +1,5 @@
 import {createStore, produce} from "solid-js/store";
-import {UseGlideState} from "../types/Glide";
+import {Glide, UseGlideState} from "../types/Glide";
 import * as api from "../api/glide";
 import {FirebaseError} from "@firebase/app";
 import {createSignal} from "solid-js";
@@ -15,7 +15,7 @@ const useSubGlides = () => {
     const [store, setStore] = createStore<UseGlideState>(defaultState());
     const [page, setPage] = createSignal(1);
 
-    const loadGlides = async () => {
+    const loadGlides = async (glideLookup: string) => {
         const _page = page();
         if (_page > 1 && !store.lastGlide) {
             return;
@@ -23,7 +23,7 @@ const useSubGlides = () => {
 
         setStore("loading", true);
         try {
-            const {glides, lastGlide} = await getSubGlides();
+            const {glides, lastGlide} = await getSubGlides(glideLookup);
 
             if (glides.length > 0) {
                 setStore(produce(store => {
