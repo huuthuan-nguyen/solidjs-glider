@@ -1,17 +1,19 @@
-import { Component } from "solid-js";
-import { FaRegularHeart } from "solid-icons/fa";
-import { FiTrash } from "solid-icons/fi";
-import { AiOutlineMessage } from "solid-icons/ai";
-import { Glide } from "../../types/Glide";
+import {Component} from "solid-js";
+import {FaRegularHeart} from "solid-icons/fa";
+import {FiTrash} from "solid-icons/fi";
+import {AiOutlineMessage} from "solid-icons/ai";
+import {Glide} from "../../types/Glide";
+import {User} from "../../types/User";
+import {useNavigate} from "@solidjs/router";
 
 type Props = {
     glide: Glide,
 }
 
-const GlidePost:Component<Props> = (props) => {
-
+const GlidePost: Component<Props> = (props) => {
+    const navigate = useNavigate();
     const glide = () => props.glide;
-    const user = () => glide().user;
+    const user = () => glide().user as User;
 
     return (
         <div class="flex-it p-4 border-b-1 border-solid border-gray-700">
@@ -24,7 +26,9 @@ const GlidePost:Component<Props> = (props) => {
                         ></img>
                     </div>
                 </div>
-                <article class="flex-it flex-grow flex-shrink cursor-pointer">
+                <article onClick={() => {
+                    navigate(`/${glide().uid}/glide/${glide().id}`)
+                }} class="flex-it flex-grow flex-shrink cursor-pointer">
                     <div class="flex-it justify-center flex-grow mb-1">
                         <div class="flex-it justify-between flex-row w-full">
                             <div>
@@ -33,7 +37,7 @@ const GlidePost:Component<Props> = (props) => {
                                 <span class="text-gray-400">2h</span>
                             </div>
                             <div class="text-gray-400 cursor-pointer transition hover:text-red-400">
-                                <FiTrash size={16} />
+                                <FiTrash size={16}/>
                             </div>
                         </div>
                     </div>
@@ -44,11 +48,11 @@ const GlidePost:Component<Props> = (props) => {
                     </div>
                     <div class="flex-it flex-row flex-grow text-gray-400">
                         <div class="flex-it flex-row items-center cursor-pointer mr-5 transition hover:text-blue-400">
-                            <AiOutlineMessage size={18} />
+                            <AiOutlineMessage size={18}/>
                             <span class="text-xs ml-3">{glide().subGlidesCount}</span>
                         </div>
                         <div class="flex-it flex-row items-center cursor-pointer transition hover:text-pink-400">
-                            <FaRegularHeart size={18} />
+                            <FaRegularHeart size={18}/>
                             <span class="text-xs ml-3">{glide().likesCount}</span>
                         </div>
                     </div>
