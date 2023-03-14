@@ -18,7 +18,17 @@ const getGlideById = async (id: string, uid: string) => {
     const userGlideRef = doc(userDocRef, "glides", id);
     const userGlideSnap = await getDoc(userGlideRef);
     const userGlide = userGlideSnap.data() as UserGlide;
-    console.log(userGlide.lookup);
+    const glideSnap = await getDoc(userGlide.lookup);
+    const userDocSnap = await getDoc(userDocRef);
+
+    const glide = {
+        ...glideSnap.data(),
+        user: userDocSnap.data() as User,
+        id: glideSnap.id,
+        lookup: glideSnap.ref.path,
+    } as Glide;
+
+    return glide;
 }
 
 const getGlides = async (loggedInUser: User, lastGlide: QueryDocumentSnapshot | null) => {

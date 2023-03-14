@@ -6,8 +6,9 @@ import {getGlideById} from "../api/glide";
 const GlideDetailScreen = () => {
     const params = useParams();
 
-    onMount(() => {
-        getGlideById(params.id, params.uid);
+    onMount(async () => {
+        const glide = await getGlideById(params.id, params.uid);
+        console.log(glide);
     })
 
     return (
