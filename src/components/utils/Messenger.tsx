@@ -2,7 +2,7 @@ import {Component, mergeProps, Show} from "solid-js";
 import {FaRegularImage} from "solid-icons/fa";
 import useMessenger from "../../hooks/useMessenger";
 import {useAuthState} from "@context/auth";
-import {GliderInputEvent} from "../../types/Form";
+import {GliderFileEvent, GliderInputEvent} from "../../types/Form";
 import {Glide} from "../../types/Glide";
 import Button from "@components/utils/Button";
 
@@ -23,6 +23,11 @@ const Messenger: Component<Props> = (initialProps) => {
         el.style.height = "0px";
         const {scrollHeight} = el;
         el.style.height = scrollHeight + "px";
+    }
+
+    const handleImageSelection = (e: GliderFileEvent) => {
+        const file = e.target.files![0];
+        console.log(file);
     }
 
     return (
@@ -56,7 +61,11 @@ const Messenger: Component<Props> = (initialProps) => {
                     <div class="flex-it mt-3 mr-3 cursor-pointer text-white hover:text-blue-400 transition">
                         <div class="upload-btn-wrapper">
                             <FaRegularImage class="cursor-pointer" size={18}/>
-                            <input type="file" name="myfile"/>
+                            <input
+                                onChange={handleImageSelection}
+                                type="file"
+                                name="myfile"
+                            />
                         </div>
                     </div>
                     <div class="flex-it w-32 mt-3 cursor-pointer">

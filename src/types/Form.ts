@@ -1,3 +1,8 @@
+export type GliderFileEvent = {
+    currentTarget: HTMLInputElement;
+    target: Element & { files?: FileList };
+}
+
 export type GliderInputEvent = InputEvent & {
     currentTarget: HTMLInputElement | HTMLTextAreaElement;
     target: Element;
