@@ -10,9 +10,11 @@ import {User} from "../types/User";
 import useSubGlides from "../hooks/useSubGlides";
 import PaginatedGlides from "@components/glides/PaginatedGlides";
 import {Glide} from "../types/Glide";
+import {usePersistence} from "@context/persistence";
 
 const GlideDetailScreen = () => {
     const params = useParams();
+    const persistence = usePersistence()!;
 
     const onGlideLoaded = (glide: Glide) => {
         resetPagination();
@@ -20,7 +22,7 @@ const GlideDetailScreen = () => {
     }
 
     const [data, {mutate, refetch}] = createResource(async () => {
-        const glide = await getGlideById(params.id, params.uid);
+        const glide = await persistence.useRevalidate<Glide>(`selectedGlide-${params.id}`, () => getGlideById(params.id, params.uid));
         resetPagination();
         onGlideLoaded(glide);
         return glide;
