@@ -22,7 +22,12 @@ const GlideDetailScreen = () => {
     }
 
     const [data, {mutate, refetch}] = createResource(async () => {
-        const glide = await persistence.useRevalidate<Glide>(`selectedGlide-${params.id}`, () => getGlideById(params.id, params.uid));
+        const glide = await persistence.useRevalidate<Glide>(
+            `selectedGlide-${params.id}`,
+            () => getGlideById(params.id, params.uid),
+            (latestGlide) => {
+                mutate(latestGlide);
+            });
         resetPagination();
         onGlideLoaded(glide);
         return glide;
