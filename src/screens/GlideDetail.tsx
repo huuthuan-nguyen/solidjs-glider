@@ -9,10 +9,11 @@ import Messenger from "@components/utils/Messenger";
 import {User} from "../types/User";
 import useSubGlides from "../hooks/useSubGlides";
 import PaginatedGlides from "@components/glides/PaginatedGlides";
+import {Glide} from "../types/Glide";
 
 const GlideDetailScreen = () => {
     const params = useParams();
-    const [data] = createResource(() => getGlideById(params.id, params.uid));
+    const [data, {mutate}] = createResource(() => getGlideById(params.id, params.uid));
     const {store, page, loadGlides} = useSubGlides();
     const user = () => data()?.user as User;
 
@@ -22,6 +23,15 @@ const GlideDetailScreen = () => {
             loadGlides(glide.lookup);
         }
     })
+
+    const onGlideAdded = (newGlide?: Glide) => {
+        const glide = data()! as Glide;
+
+        mutate({
+            ...glide,
+            subGlidesCount: glide.subGlidesCount + 1,
+        })
+    }
 
     return (
         <MainLayout pageTitle={
@@ -44,8 +54,7 @@ const GlideDetailScreen = () => {
                     <Messenger
                         answerTo={data()?.lookup}
                         showAvatar={false}
-                        onGlideAdded={() => {
-                        }}/>
+                        onGlideAdded={onGlideAdded}/>
                     <PaginatedGlides
                         page={page}
                         pages={store.pages}
