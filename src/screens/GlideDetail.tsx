@@ -8,11 +8,12 @@ import {FaSolidArrowLeft} from "solid-icons/fa";
 import Messenger from "@components/utils/Messenger";
 import {User} from "../types/User";
 import useSubGlides from "../hooks/useSubGlides";
+import PaginatedGlides from "@components/glides/PaginatedGlides";
 
 const GlideDetailScreen = () => {
     const params = useParams();
     const [data] = createResource(() => getGlideById(params.id, params.uid));
-    const {store, loadGlides} = useSubGlides();
+    const {store, page, loadGlides} = useSubGlides();
     const user = () => data()?.user as User;
 
     createEffect(() => {
@@ -41,9 +42,18 @@ const GlideDetailScreen = () => {
                         Answering to {user().nickName}
                     </div>
                     <Messenger
+                        answerTo={data()?.lookup}
                         showAvatar={false}
                         onGlideAdded={() => {
                         }}/>
+                    <PaginatedGlides
+                        page={page}
+                        pages={store.pages}
+                        loading={store.loading}
+                        loadMoreGlides={() => {
+                            return Promise.resolve();
+                        }}
+                    />
                 </div>
             </Show>
         </MainLayout>

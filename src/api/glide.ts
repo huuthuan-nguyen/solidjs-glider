@@ -123,11 +123,25 @@ const subscribeToGlides = (loggedInUser: User, getCallback: (g: Glide[]) => void
     });
 }
 
+const getGlideCollection = (answerTo?: string) => {
+    let glideCollection;
+
+    if (!!answerTo) {
+        const ref = doc(db, answerTo);
+        glideCollection = collection(ref, "glides");
+    } else {
+        glideCollection = collection(db, "glides");
+    }
+
+    return glideCollection;
+}
+
 const createGlide = async (form: {
     content: string;
     uid: string;
-}): Promise<Glide> => {
+}, answerTo?: string): Promise<Glide> => {
     const userRef = doc(db, "users", form.uid);
+    const glideCollection = getGlideCollection(answerTo);
     const glideToStore = {
         ...form,
         user: userRef,
@@ -135,8 +149,6 @@ const createGlide = async (form: {
         subGlidesCount: 0,
         date: Timestamp.now(),
     };
-
-    const glideCollection = collection(db, "glides");
     const added = await addDoc(glideCollection, glideToStore);
 
     const userGlideRef = doc(userRef, "glides", added.id);

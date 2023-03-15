@@ -9,10 +9,11 @@ import Button from "@components/utils/Button";
 type Props = {
     onGlideAdded: (g: Glide | undefined) => void;
     showAvatar?: boolean;
+    answerTo?: string;
 }
 const Messenger: Component<Props> = (initialProps) => {
     const props = mergeProps({showAvatar: true}, initialProps);
-    const {handleInput, handleSubmit, form, loading} = useMessenger();
+    const {handleInput, handleSubmit, form, loading} = useMessenger(props.answerTo);
     const {user} = useAuthState()!;
 
     const sendDisabled = () => loading() || form.content.trim() === "";
@@ -38,18 +39,18 @@ const Messenger: Component<Props> = (initialProps) => {
             </Show>
             <div class="flex-it flex-grow">
                 <div class="flex-it">
-                        <textarea
-                            value={form.content}
-                            onInput={(e) => {
-                                handleInput(e);
-                                autosize(e);
-                            }}
-                            name="content"
-                            rows="1"
-                            id="glide"
-                            class="bg-transparent resize-none overflow-hidden block !outline-none !border-none border-transparent focus:border-transparent focus:ring-0 text-gray-100 text-xl w-full p-0"
-                            placeholder={"What's new?"}
-                        />
+          <textarea
+              value={form.content}
+              onInput={(e) => {
+                  handleInput(e);
+                  autosize(e);
+              }}
+              name="content"
+              rows="1"
+              id="glide"
+              class="bg-transparent resize-none overflow-hidden block !outline-none !border-none border-transparent focus:border-transparent focus:ring-0 text-gray-100 text-xl w-full p-0"
+              placeholder={"What's new?"}
+          />
                 </div>
                 <div class="flex-it mb-1 flex-row xs:justify-between items-center">
                     <div class="flex-it mt-3 mr-3 cursor-pointer text-white hover:text-blue-400 transition">
