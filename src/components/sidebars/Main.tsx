@@ -7,9 +7,16 @@ import pageSize from "../../reactive/pageSize";
 import {RiDesignQuillPenLine} from "solid-icons/ri";
 import {useAuthState} from "@context/auth";
 import Modal from "@components/utils/Modal";
+import Messenger from "@components/utils/Messenger";
+import {Glide} from "../../types/Glide";
 
-const MainSidebar: Component = () => {
+type Props = {
+    onGlideAdded: (glide?: Glide) => void;
+}
+
+const MainSidebar: Component<Props> = (props) => {
     const {user} = useAuthState()!;
+
     return (
         <header class="lg:flex-grow flex-it items-end">
             <div class="xl:w-80 w-20 flex-it">
@@ -57,9 +64,9 @@ const MainSidebar: Component = () => {
                                     </div>
                                 </div>
                             }>
-                                <div class="text-white">
-                                    Modal content!
-                                </div>
+                                <Messenger
+                                    onGlideAdded={props.onGlideAdded}
+                                />
                             </Modal>
                         </div>
                         {/* PROFILE MENU */}

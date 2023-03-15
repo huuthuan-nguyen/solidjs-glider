@@ -46,14 +46,17 @@ const GlideDetailScreen = () => {
     }
 
     return (
-        <MainLayout pageTitle={
-            <div onClick={() => history.back()}>
-                <div class="flex-it flex-row items-center text-xl cursor-pointer">
-                    <FaSolidArrowLeft/>
-                    <div class="ml-5 font-bold">Back</div>
+        <MainLayout
+            pageTitle={
+                <div onClick={() => history.back()}>
+                    <div class="flex-it flex-row items-center text-xl cursor-pointer">
+                        <FaSolidArrowLeft/>
+                        <div class="ml-5 font-bold">Back</div>
+                    </div>
                 </div>
-            </div>
-        }>
+            }
+            onGlideAdded={onGlideAdded}
+        >
             <Show
                 when={!data.loading}
                 fallback={<CenteredDataLoader/>}

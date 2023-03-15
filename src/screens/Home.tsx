@@ -26,17 +26,20 @@ const HomeScreen: Component = () => {
     })
 
     return (
-        <MainLayout pageTitle="Home">
+        <MainLayout
+            pageTitle="Home"
+            onGlideAdded={addGlide}
+        >
             <Messenger onGlideAdded={addGlide}/>
             <div class="h-px bg-gray-700 my-1"/>
             <Show when={store.freshGlides.length >= 3}>
-            <Portal>
-                <div class="fixed top-2 z-100 left-2/4 -translate-x-1/2">
-                    <Button onClick={displayFreshGlides}>
-                        <span>Read New Glides</span>
-                    </Button>
-                </div>
-            </Portal>
+                <Portal>
+                    <div class="fixed top-2 z-100 left-2/4 -translate-x-1/2">
+                        <Button onClick={displayFreshGlides}>
+                            <span>Read New Glides</span>
+                        </Button>
+                    </div>
+                </Portal>
             </Show>
             <PaginatedGlides
                 page={page}
