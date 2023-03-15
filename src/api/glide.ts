@@ -132,7 +132,7 @@ const subscribeToGlides = (loggedInUser: User, getCallback: (g: Glide[]) => void
             const glide = doc.data() as Glide;
             const userSnapshot = await getDoc(glide.user as DocumentReference);
             glide.user = userSnapshot.data() as User;
-            return {...glide, id: doc.id};
+            return {...glide, id: doc.id, lookup: doc.ref.path};
         }));
 
         getCallback(glides);
