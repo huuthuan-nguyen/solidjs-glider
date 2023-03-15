@@ -14,6 +14,7 @@ export type Form = { [key: string]: string }
 export type FormErrors = { [key: string]: string[] }
 export type MessengerForm = {
     content: string;
+    mediaUrl?: string;
 } & Form;
 
 export type AuthForm = {
@@ -27,3 +28,9 @@ export type RegisterForm = {
     avatar: string,
     passwordConfirmation: string,
 } & AuthForm
+
+export type UploadImage = {
+    buffer: ArrayBuffer,
+    name: string;
+    previewUrl: string;
+}

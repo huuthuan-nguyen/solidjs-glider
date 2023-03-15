@@ -1,4 +1,4 @@
-import {Component} from "solid-js";
+import {Component, Show} from "solid-js";
 import {FaRegularHeart} from "solid-icons/fa";
 import {FiTrash} from "solid-icons/fi";
 import {AiOutlineMessage} from "solid-icons/ai";
@@ -15,6 +15,7 @@ const GlidePost: Component<Props> = (props) => {
     const navigate = useNavigate();
     const glide = () => props.glide;
     const user = () => glide().user as User;
+    const hasUrl = () => !!glide().mediaUrl;
 
     return (
         <div class="flex-it p-4 border-b-1 border-solid border-gray-700">
@@ -35,7 +36,8 @@ const GlidePost: Component<Props> = (props) => {
                             <div>
                                 <span class="font-bold">{user().nickName}</span>
                                 <span class="mx-2">&#8226;</span>
-                                <span class="text-gray-400">{moment(glide().date.toDate().toISOString()).fromNow()}</span>
+                                <span
+                                    class="text-gray-400">{moment(glide().date.toDate().toISOString()).fromNow()}</span>
                             </div>
                             <div class="text-gray-400 cursor-pointer transition hover:text-red-400">
                                 <FiTrash size={16}/>
@@ -47,6 +49,11 @@ const GlidePost: Component<Props> = (props) => {
                             {glide().content}
                         </div>
                     </div>
+                    <Show when={hasUrl()}>
+                        <div class="flex-it max-w-64 pb-6">
+                            <img src={glide().mediaUrl}/>
+                        </div>
+                    </Show>
                     <div class="flex-it flex-row flex-grow text-gray-400">
                         <div class="flex-it flex-row items-center cursor-pointer mr-5 transition hover:text-blue-400">
                             <AiOutlineMessage size={18}/>

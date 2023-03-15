@@ -3,16 +3,9 @@ import {GliderInputEvent, MessengerForm} from "../types/Form";
 import {useAuthState} from "@context/auth";
 import {useUIDispatch} from "@context/ui";
 import {createSignal} from "solid-js";
-import {createGlide} from "../api/glide";
+import {createGlide, uploadImage} from "../api/glide";
 import {FirebaseError} from "@firebase/app";
-import * as buffer from "buffer";
-
-
-type UploadImage = {
-    buffer: ArrayBuffer,
-    name: string;
-    previewUrl: string;
-}
+import {UploadImage} from "../types/Form";
 
 const defaultImage = () => ({
     buffer: new ArrayBuffer(0),
@@ -43,19 +36,26 @@ const useMessenger = (answerTo?: string) => {
 
         setLoading(true);
 
-        const glide = {
+        const glideForm = {
             ...form,
             uid: user!.uid,
         }
 
         try {
-            const newGlide = await createGlide(glide, answerTo);
+
+            if (image().buffer.byteLength > 0) {
+                const downloadUrl = await uploadImage(image());
+                glideForm.mediaUrl = downloadUrl;
+            }
+
+            const newGlide = await createGlide(glideForm, answerTo);
             newGlide.user = {
                 nickName: user!.nickName,
                 avatar: user!.avatar
             };
             addSnackbar({message: "Glide added!", type: "success"});
             setForm({content: ""});
+            setImage(defaultImage());
             return newGlide;
         } catch (error) {
             const message = (error as FirebaseError).message;
