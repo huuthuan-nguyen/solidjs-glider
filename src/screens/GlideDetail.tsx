@@ -43,11 +43,13 @@ const GlideDetailScreen = () => {
 
     const onGlideAdded = (newGlide?: Glide) => {
         const glide = data()! as Glide;
-
-        mutate({
+        const glideWithNewCount = {
             ...glide,
             subGlidesCount: glide.subGlidesCount + 1,
-        })
+        };
+
+        mutate(glideWithNewCount);
+        persistence.setValue(`selectedGlide-${params.id}`, glideWithNewCount);
 
         addGlide(newGlide);
     }
