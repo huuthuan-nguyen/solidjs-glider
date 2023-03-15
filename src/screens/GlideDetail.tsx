@@ -15,16 +15,24 @@ const GlideDetailScreen = () => {
     const params = useParams();
 
     const onGlideLoaded = (glide: Glide) => {
+        resetPagination();
         loadGlides(glide.lookup!);
     }
 
-    const [data, {mutate}] = createResource(async () => {
+    const [data, {mutate, refetch}] = createResource(async () => {
         const glide = await getGlideById(params.id, params.uid);
+        resetPagination();
         onGlideLoaded(glide);
         return glide;
     });
-    const {store, page, loadGlides, addGlide} = useSubGlides();
+    const {store, page, loadGlides, addGlide, resetPagination} = useSubGlides();
     const user = () => data()?.user as User;
+
+    createEffect(() => {
+        if (!data.loading && data()?.id !== params.id) {
+            refetch();
+        }
+    })
 
     const onGlideAdded = (newGlide?: Glide) => {
         const glide = data()! as Glide;
