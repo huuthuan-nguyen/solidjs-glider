@@ -22,7 +22,7 @@ const useSubGlides = () => {
 
         setStore("loading", true);
         try {
-            const {glides, lastGlide} = await getSubGlides(glideLookup);
+            const {glides, lastGlide} = await getSubGlides(glideLookup, store.lastGlide);
 
             if (glides.length > 0) {
                 setStore(produce(store => {
