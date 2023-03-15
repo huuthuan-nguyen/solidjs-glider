@@ -13,7 +13,7 @@ type Props = {
 }
 const Messenger: Component<Props> = (initialProps) => {
     const props = mergeProps({showAvatar: true}, initialProps);
-    const {handleInput, handleSubmit, form, loading} = useMessenger(props.answerTo);
+    const {handleInput, handleSubmit, form, loading, image, setImage} = useMessenger(props.answerTo);
     const {user} = useAuthState()!;
 
     const sendDisabled = () => loading() || form.content.trim() === "";
@@ -37,8 +37,12 @@ const Messenger: Component<Props> = (initialProps) => {
             const blob = new Blob([buffer8Uint], {type: file.type});
             const urlCreator = window.URL || window.webkitURL;
 
-            const imageUrl = urlCreator.createObjectURL(blob);
-            console.log(imageUrl);
+            const previewUrl = urlCreator.createObjectURL(blob);
+            setImage({
+                buffer,
+                name: file.name,
+                previewUrl,
+            });
         }
     }
 
@@ -69,6 +73,11 @@ const Messenger: Component<Props> = (initialProps) => {
               placeholder={"What's new?"}
           />
                 </div>
+                <Show when={image().previewUrl.length > 0}>
+                    <div class="flex-it max-w-52 p-4">
+                        <img src={image().previewUrl} />
+                    </div>
+                </Show>
                 <div class="flex-it mb-1 flex-row xs:justify-between items-center">
                     <div class="flex-it mt-3 mr-3 cursor-pointer text-white hover:text-blue-400 transition">
                         <div class="upload-btn-wrapper">
