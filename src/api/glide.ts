@@ -4,10 +4,10 @@ import {
     doc,
     DocumentReference,
     getDoc,
-    getDocs, limit, onSnapshot,
+    getDocs, increment, limit, onSnapshot,
     orderBy,
     query, QueryConstraint, QueryDocumentSnapshot, setDoc, startAfter,
-    Timestamp, where
+    Timestamp, updateDoc, where
 } from "@firebase/firestore";
 import {db} from "../db";
 import {Glide, UserGlide} from "../types/Glide";
@@ -149,6 +149,14 @@ const createGlide = async (form: {
         subGlidesCount: 0,
         date: Timestamp.now(),
     };
+
+    if (!!answerTo) {
+        const ref = doc(db, answerTo);
+        await updateDoc(ref, {
+            subGlidesCount: increment(1),
+        });
+    }
+
     const added = await addDoc(glideCollection, glideToStore);
 
     const userGlideRef = doc(userRef, "glides", added.id);
