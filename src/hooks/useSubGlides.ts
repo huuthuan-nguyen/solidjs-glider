@@ -1,5 +1,5 @@
 import {createStore, produce} from "solid-js/store";
-import {UseGlideState} from "../types/Glide";
+import {Glide, UseGlideState} from "../types/Glide";
 import {FirebaseError} from "@firebase/app";
 import {createSignal} from "solid-js";
 import {getSubGlides} from "../api/glide";
@@ -41,10 +41,22 @@ const useSubGlides = () => {
         }
     }
 
+    const addGlide = (glide: Glide | undefined) => {
+        if (!glide) return;
+        const page = 1;
+        setStore(produce(store => {
+            if (!store.pages[page]) {
+                store.pages[page] = {glides: []};
+            }
+            store.pages[page].glides.unshift({...glide});
+        }));
+    }
+
     return {
         store,
         loadGlides,
         page,
+        addGlide,
     }
 }
 
