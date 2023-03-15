@@ -6,6 +6,7 @@ import {Glide} from "../../types/Glide";
 type Props = {
     pageTitle: JSXElement;
     onGlideAdded: (glide?: Glide) => void;
+    selectedGlide?: Glide;
 }
 
 const MainLayout: ParentComponent<Props> = (props) => {
@@ -13,7 +14,10 @@ const MainLayout: ParentComponent<Props> = (props) => {
         <div class="w-full h-full bg-gray-900 text-gray-100">
             <div class="flex h-full min-h-252">
                 {/* SIDEBAR START */}
-                <MainSidebar onGlideAdded={props.onGlideAdded}/>
+                <MainSidebar
+                    onGlideAdded={props.onGlideAdded}
+                    selectedGlide={props.selectedGlide}
+                />
                 {/* SIDEBARS END */}
                 <main class="flex-it flex-grow flex-shrink items-start">
                     <div class="flex md:w-248 w-full h-full">

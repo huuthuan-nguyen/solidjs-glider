@@ -56,6 +56,7 @@ const GlideDetailScreen = () => {
                 </div>
             }
             onGlideAdded={onGlideAdded}
+            selectedGlide={data()}
         >
             <Show
                 when={!data.loading}
